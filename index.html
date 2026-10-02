@@ -177,6 +177,14 @@ p, li { text-wrap: pretty; }   /* no single-word last lines */
 .menu-open .mnav { opacity: 1; pointer-events: auto; }
 .menu-open .mnav > a { transform: none; opacity: 1; }
 .mnav > a:nth-child(2) { transition-delay: .05s; } .mnav > a:nth-child(3) { transition-delay: .1s; } .mnav > a:nth-child(4) { transition-delay: .15s; } .mnav > a:nth-child(5) { transition-delay: .2s; } .mnav > a:nth-child(6) { transition-delay: .25s; }
+.mlang { display: inline-flex; align-self: flex-start; gap: 4px; margin-top: var(--s-4); padding: 4px; border: 1px solid var(--line); border-radius: 99px;
+  opacity: 0; transform: translateY(20px); transition: transform .6s var(--ease-out) .3s, opacity .4s ease .3s; }
+.menu-open .mlang { opacity: 1; transform: none; }
+.mlang button { height: 40px; padding: 0 20px; border-radius: 99px; font-family: var(--font-display); font-size: 15px; color: var(--text-muted);
+  transition: background-color .3s ease, color .3s ease, transform .4s var(--spring); }
+.mlang button:hover, .mlang button:focus-visible { color: var(--white); }
+.mlang button:active { transform: scale(.96); }
+.mlang button.on { background: var(--blue); color: var(--black); }
 .mnav .mnav__foot { margin-top: var(--s-4); padding-top: var(--s-3); border-top: 1px solid var(--line); color: var(--text-muted); font-size: 16px; display: grid; gap: 8px; }
 .mnav__foot a { width: max-content; transition: color .3s ease; }
 .mnav__foot a:hover, .mnav__foot a:focus-visible { color: var(--white); }
@@ -496,6 +504,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   .hdr__end { gap: var(--s-3); }
   .hdr__end .cta { display: none; }
   .hdr__mcta { display: inline-flex; }
+  .lang { display: none; }
   .fab { display: none; }
   .hdr__bar { background: rgba(0, 0, 0, .72); }
   .svc { grid-template-columns: 1fr 2fr; }
@@ -620,6 +629,10 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   <a href="#about" data-i18n="nav.about">About</a>
   <a href="#faq" data-i18n="nav.faq">FAQ</a>
   <a href="#contact" data-i18n="nav.contacts">Contacts</a>
+  <div class="mlang" role="group" aria-label="Language / Språk">
+    <button type="button" data-l="en" class="on" aria-pressed="true">English</button>
+    <button type="button" data-l="no" aria-pressed="false">Norsk</button>
+  </div>
   <div class="mnav__foot"><a href="mailto:post@vektrum.no">post@vektrum.no</a><a href="tel:+4799889096">+47 998 89 096</a></div>
 </nav>
 
@@ -1094,12 +1107,14 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     });
     document.documentElement.lang = l === 'no' ? 'nb' : 'en';
     document.title = TITLES[l];
-    $$('#lang span').forEach(s => s.classList.toggle('on', s.dataset.l === l));
+    $$('#lang span, .mlang button').forEach(s => s.classList.toggle('on', s.dataset.l === l));
+    $$('.mlang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
     try { localStorage.setItem('vk-lang', l); } catch (e) {}
     $$('.field.err').forEach(f => validate(f.querySelector('input,textarea')));
     tidy();
   }
   $('#lang').addEventListener('click', () => setLang(lang === 'en' ? 'no' : 'en'));
+  $$('.mlang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l)));
   let saved = null;
   try { saved = localStorage.getItem('vk-lang'); } catch (e) {}
   const initial = new URLSearchParams(location.search).get('lang') || saved || ((navigator.language || '').match(/^(nb|nn|no)\b/i) ? 'no' : 'en');
