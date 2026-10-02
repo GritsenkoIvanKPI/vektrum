@@ -1419,47 +1419,27 @@ function init() {
   const MOBILE_TILT = .12;               // slight tilt so the curve runs diagonally on portrait screens
   const sp3 = new THREE.Vector3();
 
-  // Phones: anchor the bend of the wave in the middle of the free band between the copy and the
-  // bottom row, size it by width, and let the tail / head run off the edges diagonally.
-  const BEND_U = .6;
-  const bendPt = fitCurve.getPointAt(BEND_U);
+  // Phones: composition from the mobile reference — the tail enters at the left edge low on the screen,
+  // the bend sits low in the centre and the head rises out of the right edge at about mid-height.
+  // Two points on the curve are pinned to fixed screen positions (fractions of the viewport).
+  const PIN_A = { u: .34, x: -.02, y: .83 };
+  const PIN_B = { u: .86, x: 1.08, y: .52 };
+  const pinA = fitCurve.getPointAt(PIN_A.u), pinB = fitCurve.getPointAt(PIN_B.u);
   function fitMobile(W, H) {
-    buildSamples();
-    const hr = hero.getBoundingClientRect();
-    const sub = document.querySelector('.hero__sub').getBoundingClientRect();
-    const bot = document.querySelector('.hero__bottom').getBoundingClientRect();
     const vh = Math.min(H, innerHeight);
-    const y0 = sub.bottom - hr.top + 12;
-    let y1 = bot.top - hr.top;
-    // short phones: too little free space above the bottom row, so the wave also runs behind it
-    if (y1 - y0 < .3 * vh) y1 = vh - 8;
-    const tgtW = W * 1.4;                    // width taken by the bend + head
-    const ax = W * .3, ay = y0 + (y1 - y0) * .72;
-    rig.rotation.set(0, 0, MOBILE_TILT); rig.scale.setScalar(1); rig.position.set(0, 0, 0);
+    const ta = new THREE.Vector2(PIN_A.x * W, PIN_A.y * vh), tb = new THREE.Vector2(PIN_B.x * W, PIN_B.y * vh);
+    rig.rotation.set(0, 0, 0); rig.scale.setScalar(1); rig.position.set(0, 0, 0);
     const pxToWorld = 2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / H;
-    const toScreen = p => { sp3.copy(p).applyMatrix4(rig.matrixWorld).project(camera); return [(sp3.x + 1) / 2 * W, (1 - sp3.y) / 2 * H]; };
-    for (let it = 0; it < 12; it++) {
-      rig.updateMatrixWorld(true);
-      let a = 1e9, b = -1e9, top = 1e9;
-      samples.forEach(p => { const [x, y] = toScreen(p); a = Math.min(a, x); b = Math.max(b, x); top = Math.min(top, y); });
-      let k = tgtW / (b - a);
-      rig.scale.multiplyScalar(Math.pow(k, .8));
-      rig.updateMatrixWorld(true);
-      const [bx, by] = toScreen(bendPt);
-      rig.position.x += (ax - bx) * pxToWorld;
-      rig.position.y -= (ay - by) * pxToWorld;
-    }
-    // never let the head climb over the description: shrink until its top clears the copy
-    for (let it = 0; it < 60; it++) {
-      rig.updateMatrixWorld(true);
-      // the head may exit at the right edge; check only on-screen points
-      let onTop = 1e9; samples.forEach(p => { const [x, y] = toScreen(p); if (x < W) onTop = Math.min(onTop, y); });
-      if (onTop >= y0 - 4) break;
-      rig.scale.multiplyScalar(.95);
-      rig.updateMatrixWorld(true);
-      const [bx, by] = toScreen(bendPt);
-      rig.position.x += (ax - bx) * pxToWorld;
-      rig.position.y -= (ay - by) * pxToWorld;
+    const toScreen = p => { rig.updateMatrixWorld(true); sp3.copy(p).applyMatrix4(rig.matrixWorld).project(camera); return new THREE.Vector2((sp3.x + 1) / 2 * W, (1 - sp3.y) / 2 * H); };
+    for (let it = 0; it < 30; it++) {
+      let a = toScreen(pinA), b = toScreen(pinB);
+      const cur = b.clone().sub(a), tgt = tb.clone().sub(ta);
+      rig.scale.multiplyScalar(Math.pow(tgt.length() / cur.length(), .8));
+      // screen y points down, so a positive screen-angle difference is a clockwise turn
+      rig.rotation.z -= (Math.atan2(tgt.y, tgt.x) - Math.atan2(cur.y, cur.x)) * .8;
+      a = toScreen(pinA);
+      rig.position.x += (ta.x - a.x) * pxToWorld;
+      rig.position.y -= (ta.y - a.y) * pxToWorld;
     }
     rigBase.copy(rig.position);
   }
@@ -1476,9 +1456,9 @@ function init() {
       rig.rotation.z = 0; rig.scale.setScalar(1); rigBase.set(0, 0, 0); thick = 1;
     } else {
       camera.position.set(0, 0, 30); lookAt.set(0, 0, 0); camera.fov = 40;
-      scene.fog.near = 30; scene.fog.far = 64;               // the camera sits further back on phones
+      scene.fog.near = 34; scene.fog.far = 90;               // the camera sits further back on phones; keep the tail visible
       camera.updateProjectionMatrix(); camera.lookAt(lookAt); camera.updateMatrixWorld();
-      thick = 1.4;
+      thick = 2.7;                                          // chunky tube, as in the mobile reference
       fitMobile(w, h);
     }
   }
