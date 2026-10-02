@@ -1347,7 +1347,8 @@ function init() {
   const ref = new THREE.Vector3(0, 0, 1), P = new THREE.Vector3(), T = new THREE.Vector3(),
         N = new THREE.Vector3(), B = new THREE.Vector3(), v = new THREE.Vector3(), q = new THREE.Quaternion();
   const space = x => Math.pow(THREE.MathUtils.clamp(x, 0, 1), 1.18);       // segments widen toward the head
-  const radius = u => .55 + 2.4 * Math.pow(u, 1.8);
+  let thick = 1;                                       // tube thickness multiplier (phones get a chunkier tube)
+  const radius = u => (.55 + 2.4 * Math.pow(u, 1.8)) * thick;
 
   function setRing(j, u, scale, t) {
     curve.getPointAt(u, P); curve.getTangentAt(u, T);
@@ -1404,38 +1405,61 @@ function init() {
 
   // Points along the wave (skipping the faded tail) used to frame it on phones
   const fitCurve = new THREE.CatmullRomCurve3(base.map(v => v.clone()), false, 'centripetal');
+  const FIT_FROM = .45;                    // phones frame the bend + rising head; the tail runs off-screen
   const samples = [];
-  for (let i = 0; i <= 48; i++) {
-    const u = .14 + .86 * i / 48, c = fitCurve.getPointAt(u), r = radius(u) * .85;
-    samples.push(c.clone().add(new THREE.Vector3(0, r, 0)), c.clone().add(new THREE.Vector3(0, -r, 0)),
-                 c.clone().add(new THREE.Vector3(r, 0, 0)), c.clone().add(new THREE.Vector3(-r, 0, 0)));
+  function buildSamples() {                                    // uses the current tube thickness
+    samples.length = 0;
+    for (let i = 0; i <= 48; i++) {
+      const u = FIT_FROM + (1 - FIT_FROM) * i / 48, c = fitCurve.getPointAt(u), r = radius(u);
+      samples.push(c.clone().add(new THREE.Vector3(0, r, 0)), c.clone().add(new THREE.Vector3(0, -r, 0)),
+                   c.clone().add(new THREE.Vector3(r, 0, 0)), c.clone().add(new THREE.Vector3(-r, 0, 0)));
+    }
   }
   const rigBase = new THREE.Vector3();
+  const MOBILE_TILT = .12;               // slight tilt so the curve runs diagonally on portrait screens
   const sp3 = new THREE.Vector3();
 
-  // Phones: scale and place the wave so it fills the free band between the copy and the bottom row
+  // Phones: anchor the bend of the wave in the middle of the free band between the copy and the
+  // bottom row, size it by width, and let the tail / head run off the edges diagonally.
+  const BEND_U = .6;
+  const bendPt = fitCurve.getPointAt(BEND_U);
   function fitMobile(W, H) {
+    buildSamples();
     const hr = hero.getBoundingClientRect();
     const sub = document.querySelector('.hero__sub').getBoundingClientRect();
     const bot = document.querySelector('.hero__bottom').getBoundingClientRect();
     const vh = Math.min(H, innerHeight);
-    let y1 = bot.bottom - hr.top + 18, y0 = sub.bottom - hr.top - 8;
-    y0 = Math.min(y0, y1 - (vh < 620 ? .3 : .36) * vh);       // keep the wave sizeable on short phones
-    const x0 = -.5 * W, x1 = 1.1 * W;                          // the faded tail runs off-screen to the left
-    rig.rotation.set(0, 0, 0); rig.scale.setScalar(1); rig.position.set(0, 0, 0);
+    const y0 = sub.bottom - hr.top + 12;
+    let y1 = bot.top - hr.top;
+    // short phones: too little free space above the bottom row, so the wave also runs behind it
+    if (y1 - y0 < .3 * vh) y1 = vh - 8;
+    const tgtW = W * 1.4;                    // width taken by the bend + head
+    const ax = W * .3, ay = y0 + (y1 - y0) * .72;
+    rig.rotation.set(0, 0, MOBILE_TILT); rig.scale.setScalar(1); rig.position.set(0, 0, 0);
     const pxToWorld = 2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / H;
-    for (let it = 0; it < 10; it++) {
+    const toScreen = p => { sp3.copy(p).applyMatrix4(rig.matrixWorld).project(camera); return [(sp3.x + 1) / 2 * W, (1 - sp3.y) / 2 * H]; };
+    for (let it = 0; it < 12; it++) {
       rig.updateMatrixWorld(true);
-      let a = 1e9, b = -1e9, c = 1e9, d = -1e9;
-      samples.forEach(p => {
-        sp3.copy(p).applyMatrix4(rig.matrixWorld).project(camera);
-        const sx = (sp3.x + 1) / 2 * W, sy = (1 - sp3.y) / 2 * H;
-        a = Math.min(a, sx); b = Math.max(b, sx); c = Math.min(c, sy); d = Math.max(d, sy);
-      });
-      const k = Math.min((x1 - x0) / (b - a), (y1 - y0) / (d - c));
+      let a = 1e9, b = -1e9, top = 1e9;
+      samples.forEach(p => { const [x, y] = toScreen(p); a = Math.min(a, x); b = Math.max(b, x); top = Math.min(top, y); });
+      let k = tgtW / (b - a);
       rig.scale.multiplyScalar(Math.pow(k, .8));
-      rig.position.x += ((x0 + x1) / 2 - (a + b) / 2) * pxToWorld;
-      rig.position.y -= ((y0 + y1) / 2 - (c + d) / 2) * pxToWorld;
+      rig.updateMatrixWorld(true);
+      const [bx, by] = toScreen(bendPt);
+      rig.position.x += (ax - bx) * pxToWorld;
+      rig.position.y -= (ay - by) * pxToWorld;
+    }
+    // never let the head climb over the description: shrink until its top clears the copy
+    for (let it = 0; it < 60; it++) {
+      rig.updateMatrixWorld(true);
+      // the head may exit at the right edge; check only on-screen points
+      let onTop = 1e9; samples.forEach(p => { const [x, y] = toScreen(p); if (x < W) onTop = Math.min(onTop, y); });
+      if (onTop >= y0 - 4) break;
+      rig.scale.multiplyScalar(.95);
+      rig.updateMatrixWorld(true);
+      const [bx, by] = toScreen(bendPt);
+      rig.position.x += (ax - bx) * pxToWorld;
+      rig.position.y -= (ay - by) * pxToWorld;
     }
     rigBase.copy(rig.position);
   }
@@ -1449,11 +1473,12 @@ function init() {
       camera.position.set(0, 0, 16); lookAt.set(0, 0, 0); camera.fov = 35;
       scene.fog.near = 14; scene.fog.far = 44;
       camera.updateProjectionMatrix(); camera.lookAt(lookAt); camera.updateMatrixWorld();
-      rig.scale.setScalar(1); rigBase.set(0, 0, 0);
+      rig.rotation.z = 0; rig.scale.setScalar(1); rigBase.set(0, 0, 0); thick = 1;
     } else {
       camera.position.set(0, 0, 30); lookAt.set(0, 0, 0); camera.fov = 40;
       scene.fog.near = 30; scene.fog.far = 64;               // the camera sits further back on phones
       camera.updateProjectionMatrix(); camera.lookAt(lookAt); camera.updateMatrixWorld();
+      thick = 1.4;
       fitMobile(w, h);
     }
   }
