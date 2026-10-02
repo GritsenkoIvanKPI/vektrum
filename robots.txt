@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /temporary%20screenshots/
+Disallow: /vektrum%20branding/
+Disallow: /site_photos/
+
+Sitemap: https://vektrum-peach.vercel.app/sitemap.xml
