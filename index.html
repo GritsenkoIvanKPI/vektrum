@@ -349,10 +349,13 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
 .bridge__row:hover .tick, .bridge__row:focus-visible .tick { transform: translate(3px, -3px); }
 .bridge__row:active { opacity: .7; }
 /* brand chevrons drifting along the bottom edge */
-.bridge__strip { position: absolute; z-index: -1; left: 0; right: 0; bottom: clamp(24px, 3vw, 44px); height: clamp(28px, 2.6vw, 44px); overflow: hidden; opacity: .22;
+.bridge__strip { --h: clamp(28px, 2.6vw, 44px); --tile: calc(var(--h) * 550 / 314);   /* one chevron group + gap */
+  position: absolute; z-index: -1; left: 0; right: 0; bottom: clamp(24px, 3vw, 44px); height: var(--h); overflow: hidden; opacity: .22;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); }
-.bridge__strip > div { display: flex; gap: clamp(20px, 2vw, 36px); width: max-content; height: 100%; animation: loop 36s linear infinite; }
-.bridge__strip img { height: 100%; width: auto; }
+.bridge__strip > div { position: absolute; top: 0; bottom: 0; left: calc(-1 * var(--tile)); right: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 550 314'%3E%3Cpath d='M114.073 314L114.102 243.828L202.943 157.599L114.029 67.6617L114 0L273 157.782L205.094 225.34L114.073 314Z' fill='%236D8DB8'/%3E%3Cpath d='M228.123 313L228.077 243.199L318.015 157.21L228.013 67.294L228 0L388 157.192L298.205 245.604L228.123 313Z' fill='%236D8DB8'/%3E%3Cpath d='M0.151519 243.67L87.6971 157.742L0 68.1646L0.367383 1L157 157.942L38.7477 276.45L0.126613 314L0.151519 243.67Z' fill='%236D8DB8'/%3E%3C/svg%3E") repeat-x 0 50% / var(--tile) 100%; animation: chevrons 2.4s linear infinite; }
+/* one seamless repeating tile, drifting left -> right in the direction the arrows point */
+@keyframes chevrons { from { transform: translateX(0); } to { transform: translateX(var(--tile)); } }
 
 /* ===== About ===== */
 .about__grid { display: grid; grid-template-columns: 2fr 5fr 5fr 2fr; gap: var(--s-5) var(--s-3); margin-top: var(--s-6); align-items: start; }
@@ -809,7 +812,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     <div class="wrap">
       <div class="bridge__card" id="bridgeCard">
         <span class="bridge__spot" id="bridgeSpot" aria-hidden="true"></span>
-        <div class="bridge__strip" aria-hidden="true"><div><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""><img src="assets/brand/triple-arrows.svg" alt=""></div></div>
+        <div class="bridge__strip" aria-hidden="true"><div></div></div>
         <div class="bridge__grid">
           <div>
             <p class="bridge__eyebrow rv"><span class="hero__dot"></span><span data-i18n="bridge.eyebrow">Next step</span></p>
