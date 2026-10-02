@@ -1,0 +1,142 @@
+VEKTRUM — ТЕКСТ САЙТУ ПО БЛОКАХ
+==================================================
+
+[0] ХЕДЕР
+--------------------------------------------------
+Навігація: About | Services | Cases | FAQ | Contacts
+Мова: EN
+Кнопка: Contact us
+
+
+[1] HERO
+--------------------------------------------------
+Заголовок: Digital growth for your business
+
+Підзаголовок:
+Web development, SEO, digital marketing, and automation — as one connected system that moves your business forward, not a set of disconnected services.
+
+Кнопка: Contact us
+
+est. 2024 — 2026
+VEKTRUM
+
+Логотипи клієнтів: Timber Trade Solutions, OAKland, UGAMC
+
+
+[2] ( 01 ) — ABOUT US
+--------------------------------------------------
+Заголовок: We engineer business growth.
+
+Текст:
+Every decision is grounded in strategy, data, and a clear understanding of how modern businesses scale. We combine web development, SEO, digital marketing, and automation into connected ecosystems designed to deliver measurable results — not isolated deliverables.
+
+Підпис: marketing agency
+Посилання: Explore the Services
+
+
+[3] ( 02 ) — SERVICES
+--------------------------------------------------
+Заголовок: Services Engineered for Success.
+
+01 — BRANDING
+- Brand strategy
+- Naming and positioning
+- Logo and visual identity
+- Brand guidelines
+- Social media and presentation design
+Кнопка: Get this service
+
+02 — WEB DEVELOPMENT
+- Websites and landing pages
+- E-commerce stores
+- Web and mobile applications
+- Ongoing technical support
+Кнопка: Get this service
+
+03 — DIGITAL MARKETING
+- SEO
+- Paid social and Google Ads
+- Content and social media management
+- Email marketing
+- Analytics and reporting
+Кнопка: Get this service
+
+04 — AI AUTOMATION
+(список пунктів у PDF не читається)
+Кнопка: Get this service
+
+
+[4] ( 03 ) — PROJECTS
+--------------------------------------------------
+Заголовок секції: Where ideas turn into projects
+
+01 — SULDALSTRAPPA
+A Norwegian manufacturer of bespoke staircases, combining traditional craftsmanship with modern precision. We created a refined digital experience that brings their custom designs, expertise, and attention to detail to life.
+Теги: Branding / Web design / Development
+Кнопка: Start a project
+
+02 — UGAMC
+An international medical aesthetics guild connecting leading professionals in the field. We created its branding, website, marketing strategy, and advertising to build a strong and cohesive digital presence.
+Теги: Branding / Web design / Development
+Кнопка: Start a project
+
+03 — GULL-SPOR
+A local Norwegian team keeping the mountains alive through well-prepared ski trails and a strong community spirit. We created a modern digital experience that brings their work, the surrounding landscape, and real-time trail information together in one intuitive platform.
+Теги: Branding / Web design / Development
+Кнопка: Start a project
+
+
+[5] ( 04 ) — OUR APPROACH
+--------------------------------------------------
+Заголовок: Every project begins with understanding your business.
+
+Текст: We follow a proven framework that combines strategy, execution, and continuous improvement.
+Кнопка: Contact us
+
+01 Research — Every project begins with understanding your business and goals.
+02 Strategy — We define the right direction before creating solutions.
+03 Execution — Design, development, and marketing work as one system.
+04 Optimization — We refine, improve, and support long after launch.
+
+
+[6] ( 05 ) — FAQ
+--------------------------------------------------
+Заголовок: Frequently Asked Questions
+
+Q: How long does a project take?
+A: Typically 6 to 12 weeks depending on the complexity of systems and level of integration.
+
+Q: How is the budget determined?
+A: [у макеті — плейсхолдер, повторює відповідь вище]
+
+Q: Do you work with clients in the EU?
+A: [у макеті — плейсхолдер, повторює відповідь вище]
+
+(У макеті питання "How is the budget determined?" і "Do you work with clients in the EU?" дублюються двічі.)
+
+
+[7] ( 06 ) — CONTACT US
+--------------------------------------------------
+Заголовок: Ready to grow?
+
+Картка: Oleh Porolo — CEO & Founder of Vektrum (Online)
+"I'm available right now to discuss your project and answer any questions you may have."
+
+Форма:
+Data — Name / Company name / Phone / Email
+I'm interested in: Branding | Web design | Advertisement | AI automation | Web development | Marketing | Other
+Project Details
+Кнопка: Submit
+
+
+[8] ФУТЕР
+--------------------------------------------------
+VEKTRUM
+We help ambitious brands grow through strategic marketing and creative thinking. From brand strategy to digital execution, we turn ideas into meaningful results.
+
+Navigation: About | Services | Projects | FAQ | Contacts
+
+Email: post@vektrum.no
+Phone: +47 998 89 096
+
+© 2026 Vektrum AS. Privacy policy
