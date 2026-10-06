@@ -58,6 +58,7 @@
    "@id": "https://vektrum-peach.vercel.app/#organization",
    "name": "Vektrum",
    "legalName": "Vektrum AS",
+   "vatID": "NO932227525MVA",
    "url": "https://vektrum-peach.vercel.app/",
    "logo": "https://vektrum-peach.vercel.app/assets/icons/icon-512.png",
    "image": "https://vektrum-peach.vercel.app/assets/img/og-image.jpg",
@@ -443,7 +444,17 @@ p, li { text-wrap: pretty; }   /* no single-word last lines */
 .logos__track { display: flex; width: max-content; animation: loop 40s linear infinite; }
 .logos:hover .logos__track { animation-play-state: paused; }
 .logos__set { display: flex; align-items: center; gap: clamp(56px, 7vw, 140px); padding-right: clamp(56px, 7vw, 140px); }
-.logos__set img { height: clamp(36px, 3.4vw, 64px); width: auto; opacity: .85; transition: opacity .3s ease, transform .5s var(--spring); }
+.logos__set { --lh: clamp(30px, 2.9vw, 54px); }
+/* optical sizing: each logo's height is scaled so they carry the same visual weight
+   (measured from ink coverage and footprint), not the same box height */
+.logos__set img[src$="client-1.svg"] { --k: 1.02; }
+.logos__set img[src$="client-2.svg"] { --k: 1; }
+.logos__set img[src$="client-3.svg"] { --k: .9; }
+.logos__set img[src$="client-4.svg"] { --k: 1.07; }
+.logos__set img[src$="client-5.svg"] { --k: .97; }
+.logos__set img[src$="client-6.svg"] { --k: 1.38; }
+.logos__set img[src$="client-7.svg"] { --k: .65; }
+.logos__set img { height: calc(var(--lh) * var(--k, 1)); width: auto; opacity: .85; transition: opacity .3s ease, transform .5s var(--spring); }
 .logos__set img:hover { opacity: 1; transform: scale(1.05); }
 @keyframes loop { to { transform: translateX(-50%); } }
 
@@ -566,12 +577,13 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
 .pillar b { font-family: var(--font-display); font-weight: 500; font-size: 18px; text-transform: uppercase; letter-spacing: -.01em; }
 .pillar p { font-size: 15px; color: var(--text-muted); }
 .about__copy .cta { justify-self: start; }
-.showcase { grid-column: 3 / -1; position: sticky; top: 120px; display: block; border-radius: 22px; overflow: hidden; isolation: isolate; aspect-ratio: 16 / 10;
+.showcase { grid-column: 3 / -1; position: sticky; top: 120px; display: block; border-radius: 22px; overflow: hidden; isolation: isolate; aspect-ratio: 1781 / 883;
   background: #121a33; box-shadow: 0 1px 0 rgba(159,199,251,.12) inset, 0 40px 100px -40px rgba(23, 60, 160, .55), 0 20px 40px -24px rgba(0,0,0,.9); will-change: clip-path; }
 .showcase::before { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; padding: 1px; pointer-events: none;
   background: linear-gradient(135deg, rgba(159,199,251,.5), rgba(159,199,251,.05) 40%, rgba(52,130,250,.35));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-.showcase::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.55), transparent 45%); pointer-events: none; }
+.showcase::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.35) 28%, transparent 55%), linear-gradient(to bottom, rgba(0,0,0,.28), transparent 30%); pointer-events: none; }
+.showcase__tint { position: absolute; inset: 0; z-index: 1; background: var(--navy); mix-blend-mode: multiply; opacity: .22; pointer-events: none; }
 .showcase img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); will-change: transform; transition: filter .6s ease; }
 .showcase:hover img { filter: brightness(1.08); }
 .showcase__tag { position: absolute; z-index: 2; top: var(--s-3); left: var(--s-3); display: flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 99px;
@@ -619,7 +631,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
 .contact__title .fl:nth-child(2) .fi { background-image: linear-gradient(90deg, #fff 0%, var(--blue) 70%); animation: none; }
 .host { margin-top: var(--s-5); max-width: 560px; }
 .host__who { display: flex; align-items: center; gap: var(--s-2); padding-left: var(--s-2); }
-.host__ava { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; flex: none; font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--black);
+.host__ava { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; display: grid; place-items: center; flex: none; font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--black);
   background: radial-gradient(circle at 30% 25%, #fff, var(--blue) 55%, var(--blue-deep)); box-shadow: 0 0 0 4px rgba(159,199,251,.12); }
 .host__name { font-family: var(--font-display); font-size: 19px; line-height: 1.2; }
 .host__role { font-size: 14px; color: var(--text-muted); }
@@ -692,6 +704,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
 .social a:hover, .social a:focus-visible { background: var(--blue); color: var(--black); transform: translateY(-3px); }
 .social a:active { transform: scale(.92); }
 .ftr__legal { display: grid; grid-template-columns: 9fr 3fr; gap: var(--s-3); margin-top: var(--s-6); font-family: var(--font-display); font-size: 15px; color: var(--text-dim); text-transform: uppercase; }
+.nowrap { white-space: nowrap; }
 .ftr__legal a { text-transform: none; text-decoration: underline; text-underline-offset: 3px; transition: color .3s ease; }
 .ftr__legal a:hover, .ftr__legal a:focus-visible { color: var(--white); }
 
@@ -768,7 +781,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   .case__tags { margin-right: 0; }
   .about__grid { grid-template-columns: 1fr; margin-top: var(--s-5); }
   .about__copy, .showcase { grid-column: 1; }
-  .showcase { position: relative; top: 0; aspect-ratio: 908 / 450; }
+  .showcase { position: relative; top: 0; aspect-ratio: 1781 / 883; order: -1; }   /* photo first, then the text */
   .showcase__cap small { display: none; }
   .showcase__tag { top: var(--s-2); left: var(--s-2); }
   .showcase__cap { left: var(--s-2); right: var(--s-2); bottom: var(--s-2); }
@@ -876,10 +889,10 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     <div class="logos" role="region" aria-label="Clients we work with">
       <div class="logos__track">
         <div class="logos__set">
-          <img src="assets/logos/client-1.svg" alt="RenFin logo" height="64" width="200" loading="lazy"><img src="assets/logos/client-2.svg" alt="COOL Comfort Service logo" height="64" width="200" loading="lazy"><img src="assets/logos/client-3.svg" alt="Suldalstrappa logo" height="64" width="200" loading="lazy"><img src="assets/logos/client-4.svg" alt="Timber Trade Solutions logo" height="64" width="200" loading="lazy"><img src="assets/logos/client-5.svg" alt="OAKland Decor & Furniture logo" height="64" width="200" loading="lazy"><img src="assets/logos/client-6.svg" alt="Gull-Spor logo" height="64" width="200" loading="lazy"><img src="assets/logos/client-7.svg" alt="UGAMC — United Guild of Aesthetic Medicine and Cosmetology logo" height="64" width="200" loading="lazy">
+          <img src="assets/logos/client-1.svg" alt="RenFin logo" loading="lazy"><img src="assets/logos/client-2.svg" alt="COOL Comfort Service logo" loading="lazy"><img src="assets/logos/client-3.svg" alt="Suldalstrappa logo" loading="lazy"><img src="assets/logos/client-4.svg" alt="Timber Trade Solutions logo" loading="lazy"><img src="assets/logos/client-5.svg" alt="OAKland Decor & Furniture logo" loading="lazy"><img src="assets/logos/client-6.svg" alt="Gull-Spor logo" loading="lazy"><img src="assets/logos/client-7.svg" alt="UGAMC — United Guild of Aesthetic Medicine and Cosmetology logo" loading="lazy">
         </div>
         <div class="logos__set" aria-hidden="true">
-          <img src="assets/logos/client-1.svg" alt="" height="64"><img src="assets/logos/client-2.svg" alt="" height="64"><img src="assets/logos/client-3.svg" alt="" height="64"><img src="assets/logos/client-4.svg" alt="" height="64"><img src="assets/logos/client-5.svg" alt="" height="64"><img src="assets/logos/client-6.svg" alt="" height="64"><img src="assets/logos/client-7.svg" alt="" height="64">
+          <img src="assets/logos/client-1.svg" alt=""><img src="assets/logos/client-2.svg" alt=""><img src="assets/logos/client-3.svg" alt=""><img src="assets/logos/client-4.svg" alt=""><img src="assets/logos/client-5.svg" alt=""><img src="assets/logos/client-6.svg" alt=""><img src="assets/logos/client-7.svg" alt="">
         </div>
       </div>
     </div>
@@ -1048,11 +1061,12 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
           </ul>
           <a href="#approach" class="cta cta--blue cta--sm rv d2" data-i18n="about.link">Our approach<i class="tick"></i></a>
         </div>
-        <a href="#cases" class="showcase" id="showcase" aria-label="See the UGAMC case">
-          <img src="assets/img/ugamc-tablet.webp" alt="UGAMC website shown on a tablet" width="908" height="450" loading="lazy">
-          <span class="showcase__tag"><span class="hero__dot"></span><span data-i18n="show.tag">Featured case</span></span>
+        <a href="#contact" class="showcase" id="showcase" aria-label="Talk to the Vektrum team">
+          <img src="assets/img/team.webp" alt="The Vektrum team — four colleagues in black, seated together" width="1781" height="883" loading="lazy">
+          <span class="showcase__tint" aria-hidden="true"></span>
+          <span class="showcase__tag"><span class="hero__dot"></span><span data-i18n="show.tag">Our team</span></span>
           <span class="showcase__cap">
-            <span><b>UGAMC</b><small data-i18n="show.cap">Branding · Website · Marketing strategy</small></span>
+            <span><b data-i18n="show.name">The Vektrum team</b><small data-i18n="show.cap">The people behind your growth</small></span>
             <span class="showcase__go" aria-hidden="true"><i></i></span>
           </span>
         </a>
@@ -1139,7 +1153,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
         <h2 class="display head__title contact__title fold grad-fold" data-fold data-i18n="contact.title">Ready<br>to grow?</h2>
         <div class="host rv">
           <div class="host__who">
-            <span class="host__ava" aria-hidden="true">OP</span>
+            <img class="host__ava" src="assets/img/oleh-porolo.jpg" alt="Oleh Porolo, CEO &amp; Founder of Vektrum" width="56" height="56" loading="lazy">
             <div><p class="host__name">Oleh Porolo</p><p class="host__role" data-i18n="host.role">CEO &amp; Founder of Vektrum</p></div>
             <span class="host__status"><i></i><span data-i18n="host.online">Online</span></span>
           </div>
@@ -1216,7 +1230,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     </div>
   </div>
   <div class="ftr__legal">
-    <p data-i18n="ftr.rights">© 2026 Vektrum AS. All rights reserved.</p>
+    <p data-i18n="ftr.rights">© 2026 Vektrum AS · <span class="nowrap">Org.nr. 932 227 525 MVA</span> · Norway</p>
     <a href="#" data-i18n="ftr.privacy">Privacy policy</a>
   </div>
 </footer>
@@ -1254,7 +1268,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     'bridge.eyebrow': 'Neste steg', 'bridge.call': 'Ring oss', 'bridge.mail': 'Send e-post',
     'about.label': 'Om oss', 'about.title': 'Vi bygger<br>vekst for bedrifter.', 'about.tag': 'Markedsføringsbyrå',
     'about.text': '<strong>Hver beslutning er forankret i strategi, data og en klar forståelse av hvordan moderne virksomheter skalerer.</strong> Vi kombinerer webutvikling, SEO, digital markedsføring og automatisering i sammenkoblede økosystemer som gir målbare resultater — ikke isolerte leveranser.',
-    'pil.1': 'Strategi først', 'pil.1t': 'Hver beslutning tar utgangspunkt i forretningsmålene dine.', 'pil.2': 'Datadrevet', 'pil.2t': 'Vi måler, lærer og optimaliserer kontinuerlig.', 'pil.3': 'Ett system', 'pil.3t': 'Web, SEO, markedsføring og automatisering jobber sammen.', 'show.tag': 'Utvalgt prosjekt', 'show.cap': 'Branding · Nettside · Markedsføringsstrategi',
+    'pil.1': 'Strategi først', 'pil.1t': 'Hver beslutning tar utgangspunkt i forretningsmålene dine.', 'pil.2': 'Datadrevet', 'pil.2t': 'Vi måler, lærer og optimaliserer kontinuerlig.', 'pil.3': 'Ett system', 'pil.3t': 'Web, SEO, markedsføring og automatisering jobber sammen.', 'show.tag': 'Teamet vårt', 'show.name': 'Vektrum-teamet', 'show.cap': 'Menneskene bak veksten din',
     'about.link': 'Vår tilnærming<i class="tick"></i>',
     'ap.label': 'Vår tilnærming', 'ap.title': 'Hvert prosjekt starter<br>med å forstå din bedrift.',
     'ap.text': 'Vi følger et velprøvd rammeverk som kombinerer strategi, gjennomføring og kontinuerlig forbedring.',
@@ -1277,7 +1291,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     'sent.title': 'Takk!', 'sent.text': 'Vi har mottatt forespørselen din og tar kontakt med deg snart.',
     'ftr.about': '<strong>Vi hjelper ambisiøse merkevarer å vokse gjennom strategisk markedsføring og kreativ tenkning.</strong> Fra merkevarestrategi til digital gjennomføring gjør vi ideer om til meningsfulle resultater.',
     'ftr.nav': 'Navigasjon', 'ftr.about.l': 'Om oss', 'ftr.services': 'Tjenester', 'ftr.projects': 'Prosjekter', 'ftr.contacts': 'Kontakt',
-    'ftr.email': 'E-post:', 'ftr.phone': 'Telefon:', 'ftr.rights': '© 2026 Vektrum AS. Alle rettigheter forbeholdt.', 'ftr.privacy': 'Personvernerklæring',
+    'ftr.email': 'E-post:', 'ftr.phone': 'Telefon:', 'ftr.rights': '© 2026 Vektrum AS · <span class="nowrap">Org.nr. 932 227 525 MVA</span> · Norge', 'ftr.privacy': 'Personvernerklæring',
     'fab.tip': 'Snakk med oss — vi er pålogget'
   };
   const ERR = {
