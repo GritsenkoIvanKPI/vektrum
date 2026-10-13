@@ -18,7 +18,10 @@ http.createServer((req, res) => {
   const file = path.join(root, path.normalize(p));
   if (!file.startsWith(root)) { res.writeHead(403).end(); return; }
   fs.readFile(file, (err, data) => {
-    if (err) { res.writeHead(404).end('Not found'); return; }
+    if (err) {   // same behaviour as the host: unknown paths get the branded 404 page
+      fs.readFile(path.join(root, '404.html'), (e2, page) => { res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' }); res.end(e2 ? 'Not found' : page); });
+      return;
+    }
     res.writeHead(200, { 'Content-Type': types[path.extname(file).toLowerCase()] || 'application/octet-stream' });
     res.end(data);
   });
