@@ -89,6 +89,7 @@
     "name": "Oleh Porolo",
     "jobTitle": "CEO & Founder"
    },
+   "sameAs": ["https://wa.me/message/4F5HUAQSRL45D1"],
    "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "sales",
@@ -436,7 +437,7 @@ p, li { text-wrap: pretty; }   /* no single-word last lines */
 .scrollcue:hover, .scrollcue:focus-visible { color: var(--white); }
 .scrollcue:active { opacity: .7; }
 .hero__copy { display: grid; justify-items: start; gap: var(--s-3); }
-.hero__title { font-family: var(--font-display); font-weight: 500; font-size: clamp(30px, 5vw, 92px); line-height: .96; letter-spacing: -.03em; text-transform: uppercase; white-space: nowrap; }
+.hero__title { font-family: var(--font-display); font-weight: 500; font-size: clamp(30px, 4.3vw, 82px); line-height: .96; letter-spacing: -.03em; text-transform: uppercase; white-space: nowrap; }
 .hero__title .grad { background-image: linear-gradient(90deg, var(--blue) 0%, #fff 25%, var(--blue) 50%, #fff 75%, var(--blue) 100%); }
 .hero__sub { font-size: 18px; line-height: 1.55; color: rgba(255,255,255,.82); max-width: 470px; }
 .hero__ctas { display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-1); }
@@ -502,7 +503,8 @@ p, li { text-wrap: pretty; }   /* no single-word last lines */
 .svc__items { display: grid; gap: 2px; font-size: 16px; color: rgba(255,255,255,.82); padding-top: 4px; }
 .svc__items li { display: flex; gap: 10px; }
 .svc__items li::before { content: ""; flex: none; width: 3px; height: 3px; margin-top: .75em; border-radius: 50%; background: currentColor; }
-.svc__cta { justify-self: end; align-self: start; }
+/* the action sits under the service's list, on the same column, so longer labels have room */
+.svc__cta { grid-column: 3 / -1; justify-self: start; align-self: start; margin-top: var(--s-2); max-width: 100%; text-align: left; }
 
 /* ===== Cases (stacked) ===== */
 .cases { position: relative; }
@@ -556,8 +558,7 @@ p, li { text-wrap: pretty; }   /* no single-word last lines */
 .bridge__grid > div:first-child { display: flex; flex-direction: column; }
 .bridge__lead { margin-bottom: 0; }
 .bridge__eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: var(--s-3); font-family: var(--font-display); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
-.bridge__title { font-size: clamp(40px, 5vw, 96px); }
-html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* longer Norwegian line still fits on one row */
+.bridge__title { font-size: clamp(36px, 4.3vw, 82px); }
 .bridge__lead { margin-top: var(--s-3); max-width: 460px; font-size: 18px; line-height: 1.55; color: var(--text-muted); }
 .bridge__side { display: flex; flex-direction: column; justify-content: space-between; gap: var(--s-5); }
 .bridge__side .btn { width: 100%; height: 60px; }
@@ -582,7 +583,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
 /* ===== About ===== */
 .about__grid { display: grid; grid-template-columns: 2fr 5fr 5fr 2fr; gap: var(--s-5) var(--s-3); margin-top: var(--s-6); align-items: start; }
 .about__copy { grid-column: 2; display: grid; gap: var(--s-5); align-content: start; }
-.about__text { max-width: 440px; font-size: 18px; line-height: 1.6; color: var(--text-muted); }
+.about__text { display: grid; gap: var(--s-2); max-width: 440px; font-size: 18px; line-height: 1.6; color: var(--text-muted); }
 .about__text strong { display: block; margin-bottom: var(--s-2); color: var(--white); font-weight: 500; font-size: 20px; line-height: 1.45; }
 .pillars { border-top: 1px solid var(--line); max-width: 440px; }
 .pillar { display: grid; grid-template-columns: 44px 1fr; gap: 4px var(--s-2); padding: 18px 0; border-bottom: 1px solid var(--line); }
@@ -752,8 +753,9 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   .bridge__card { border-radius: 20px; }
   /* CTA heading: always two lines, sized to the card's inner width (longest line: EN 7.5em, NO 9.75em) */
   .bridge__title .fl { white-space: nowrap; }
-  .bridge__title { font-size: min(56px, calc((100vw - 2 * var(--gutter) - 2 * clamp(24px, 5vw, 88px)) / 7.7)); }
-  html[lang="nb"] .bridge__title { font-size: min(56px, calc((100vw - 2 * var(--gutter) - 2 * clamp(24px, 5vw, 88px)) / 10)); }
+  /* --em = width of the longest heading line in em, per language, so it always fits the card */
+  .bridge__title { --em: 9.7; font-size: min(56px, calc((100vw - 2 * var(--gutter) - 2 * clamp(24px, 5vw, 88px)) / var(--em))); }
+  html[lang="nb"] .bridge__title { --em: 8.8; }
 }
 @media (max-width: 820px) {
   :root { --section: 96px; }
@@ -772,7 +774,8 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   .since { padding-bottom: 0; }
   .hero__ctas { order: 2; margin-top: var(--s-4); }
   .hero__ctas .cta { min-height: 56px; padding-block: 14px 12px; font-size: 18px; }
-  .hero__title { font-size: 8.2vw; }
+  .hero__title { font-size: clamp(28px, 8.6vw, 60px); white-space: normal; text-wrap: balance; }
+  .hero__title br { display: none; }
   .since__ticks { height: 56px; } .since__ticks i { height: 24px; }
   .head { grid-template-columns: 1fr; gap: var(--s-3); }
   .head__title, .head__aside { grid-column: 1; }
@@ -826,6 +829,9 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   .ftr__grid { grid-template-columns: 1fr; }
   .hero__ctas { gap: var(--s-3); }
 }
+@media (max-width: 480px) {
+  .bridge__side .btn { white-space: normal; height: auto; min-height: 60px; padding-block: 12px; text-align: center; line-height: 1.2; }
+}
 @media (max-width: 359px) {
   .hdr__mcta { display: none; }
 }
@@ -871,7 +877,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     <button type="button" data-l="en" class="on" aria-pressed="true">English</button>
     <button type="button" data-l="no" aria-pressed="false">Norsk</button>
   </div>
-  <div class="mnav__foot"><a href="mailto:post@vektrum.no">post@vektrum.no</a><a href="tel:+4799889096">+47 998 89 096</a></div>
+  <div class="mnav__foot"><a href="mailto:post@vektrum.no">post@vektrum.no</a><a href="tel:+4799889096">+47 998 89 096</a><a href="https://wa.me/message/4F5HUAQSRL45D1" target="_blank" rel="noopener">WhatsApp: +47 465 52 203</a></div>
 </nav>
 
 <main id="main">
@@ -885,8 +891,8 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     <div class="wrap hero__main">
       <div class="hero__copy">
         <p class="hero__eyebrow"><span class="hero__dot"></span><span data-i18n="hero.eyebrow">Marketing agency — Norway</span></p>
-        <h1 class="hero__title"><span class="grad" data-i18n="hero.title">Digital growth<br>for your business</span></h1>
-        <p class="hero__sub" data-i18n="hero.sub">Web development, SEO, digital marketing, and automation — as one connected system that moves your business forward, not a set of disconnected services.</p>
+        <h1 class="hero__title"><span class="grad" data-i18n="hero.title">Build a brand that moves <br>your business forward.</span></h1>
+        <p class="hero__sub" data-i18n="hero.sub">We get to the heart of the matter: the company’s structure and mission, and the innovative spirit and the unique strengths of your team.</p>
         <div class="hero__ctas">
           <a href="#contact" class="cta" data-i18n="cta.contact">Contact us<i class="tick"></i></a>
         </div>
@@ -929,7 +935,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
           <ul class="svc__items">
             <li data-i18n="svc.1.a">Brand strategy</li><li data-i18n="svc.1.b">Naming and positioning</li><li data-i18n="svc.1.c">Logo and visual identity</li><li data-i18n="svc.1.d">Brand guidelines</li><li data-i18n="svc.1.e">Social media and presentation design</li>
           </ul>
-          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="branding" data-i18n="cta.service">Get this service<i class="tick"></i></a>
+          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="branding" data-i18n="cta.s1">Build a stronger brand<i class="tick"></i></a>
         </li>
         <li class="svc rv">
           <span class="svc__n">/ 02</span>
@@ -937,7 +943,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
           <ul class="svc__items">
             <li data-i18n="svc.2.a">Websites and landing pages</li><li data-i18n="svc.2.b">E-commerce stores</li><li data-i18n="svc.2.c">Web and mobile applications</li><li data-i18n="svc.2.d">Ongoing technical support</li>
           </ul>
-          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="webdev" data-i18n="cta.service">Get this service<i class="tick"></i></a>
+          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="webdev" data-i18n="cta.s2">Let’s develop your digital presence<i class="tick"></i></a>
         </li>
         <li class="svc rv">
           <span class="svc__n">/ 03</span>
@@ -945,7 +951,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
           <ul class="svc__items">
             <li>SEO</li><li data-i18n="svc.3.b">Paid social and Google Ads</li><li data-i18n="svc.3.c">Content and social media management</li><li data-i18n="svc.3.d">Email marketing</li><li data-i18n="svc.3.e">Analytics and reporting</li>
           </ul>
-          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="marketing" data-i18n="cta.service">Get this service<i class="tick"></i></a>
+          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="marketing" data-i18n="cta.s3">Explore your potential<i class="tick"></i></a>
         </li>
         <li class="svc rv">
           <span class="svc__n">/ 04</span>
@@ -953,7 +959,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
           <ul class="svc__items">
             <li data-i18n="svc.4.a">Process automation</li><li data-i18n="svc.4.b">AI chatbots and customer assistants</li><li data-i18n="svc.4.c">CRM and system integrations</li><li data-i18n="svc.4.d">Automated marketing workflows</li>
           </ul>
-          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="ai" data-i18n="cta.service">Get this service<i class="tick"></i></a>
+          <a href="#contact" class="cta cta--blue cta--sm svc__cta" data-service="ai" data-i18n="cta.s4">Help your team focus on what matters<i class="tick"></i></a>
         </li>
       </ul>
     </div>
@@ -1041,15 +1047,16 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
         <div class="bridge__grid">
           <div>
             <p class="bridge__eyebrow rv"><span class="hero__dot"></span><span data-i18n="bridge.eyebrow">Next step</span></p>
-            <h2 class="display bridge__title fold grad-fold" id="bridge-title" data-fold data-i18n="bridge.title">Have a project<br>in mind?</h2>
+            <h2 class="display bridge__title fold grad-fold" id="bridge-title" data-fold data-i18n="bridge.title">Let’s build<br>your long-term<br>success together.</h2>
             <p class="bridge__lead rv" data-i18n="bridge.text">Tell us where you want to grow. We’ll come back with a clear plan, timeline and budget estimate — no obligations.</p>
           </div>
           <div class="bridge__side rv d1">
             <div class="bridge__rows">
               <a class="bridge__row" href="tel:+4799889096"><span class="k" data-i18n="bridge.call">Call us</span><span class="v">+47 998 89 096</span><i class="tick" aria-hidden="true"></i></a>
               <a class="bridge__row" href="mailto:post@vektrum.no"><span class="k" data-i18n="bridge.mail">Email us</span><span class="v">post@vektrum.no</span><i class="tick" aria-hidden="true"></i></a>
+              <a class="bridge__row" href="https://wa.me/message/4F5HUAQSRL45D1" target="_blank" rel="noopener"><span class="k">WhatsApp</span><span class="v">+47 465 52 203</span><i class="tick" aria-hidden="true"></i></a>
             </div>
-            <a href="#contact" class="btn" data-i18n="cta.discuss">Discuss your project</a>
+            <a href="#contact" class="btn" data-i18n="cta.discuss">Explore your growth opportunities</a>
           </div>
         </div>
       </div>
@@ -1067,7 +1074,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
       </div>
       <div class="about__grid">
         <div class="about__copy">
-          <p class="about__text rv" data-i18n="about.text"><strong>Every decision is grounded in strategy, data, and a clear understanding of how modern businesses scale.</strong> We combine web development, SEO, digital marketing, and automation into connected ecosystems designed to deliver measurable results — not isolated deliverables.</p>
+          <div class="about__text rv" data-i18n="about.text"><p><strong>Digital solutions should keep creating value long after they launch.</strong> That’s why Vektrum concentrates on achieving measurable results while keeping your brand’s mission and the beauty of your company’s innovative ideas.</p><p>Transparency is of paramount importance when it comes to the business outcomes we help achieve. The structured digital ecosystems we build go beyond short-term trends. Vektrum inspires our clients to think bigger, create confidently, and grow in a way that lasts.</p><p>Vektrum works as an extension of your team, taking the time to understand your business, simplify the digital challenges and tailor the solutions made around your goals.</p></div>
           <ul class="pillars rv d1">
             <li class="pillar"><span>01</span><b data-i18n="pil.1">Strategy first</b><p data-i18n="pil.1t">Every decision starts from your business goals.</p></li>
             <li class="pillar"><span>02</span><b data-i18n="pil.2">Data-driven</b><p data-i18n="pil.2t">We measure, learn and optimise continuously.</p></li>
@@ -1176,6 +1183,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
         <div class="host__direct rv">
           <a href="mailto:post@vektrum.no"><small data-i18n="ftr.email">Email:</small>post@vektrum.no</a>
           <a href="tel:+4799889096"><small data-i18n="ftr.phone">Phone:</small>+47 998 89 096</a>
+          <a href="https://wa.me/message/4F5HUAQSRL45D1" target="_blank" rel="noopener"><small>WhatsApp:</small>+47 465 52 203</a>
         </div>
       </div>
 
@@ -1235,8 +1243,9 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     </div>
     <div class="ftr__col ftr__contact">
       <div><h4 data-i18n="ftr.email">Email:</h4><a href="mailto:post@vektrum.no">post@vektrum.no</a></div>
-      <div><h4 data-i18n="ftr.phone">Phone:</h4><a href="tel:+4799889096">+47 998 89 096</a></div>
+      <div><h4 data-i18n="ftr.phone">Phone:</h4><a href="tel:+4799889096">+47 998 89 096</a><a href="https://wa.me/message/4F5HUAQSRL45D1" target="_blank" rel="noopener">WhatsApp: +47 465 52 203</a></div>
       <div class="social">
+        <a href="https://wa.me/message/4F5HUAQSRL45D1" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path fill="currentColor" stroke="none" d="M9.2 7.6c.3-.2.7-.1.9.2l.9 1.7c.1.3.1.6-.1.8l-.6.7c.6 1.1 1.5 2 2.7 2.7l.7-.6c.2-.2.5-.2.8-.1l1.7.9c.3.2.4.6.2.9-.5.8-1.4 1.3-2.3 1.1-3.1-.6-5.5-3-6.1-6.1-.2-.9.3-1.8 1.2-2.2Z"/></svg></a>
         <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></svg></a>
         <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 9.5h-3v10h3v-10ZM5 8a1.7 1.7 0 1 0 0-3.4A1.7 1.7 0 0 0 5 8Zm4.5 1.5v10h3v-5.3c0-1.4.6-2.4 1.9-2.4 1.2 0 1.6.9 1.6 2.3v5.4h3v-6c0-2.8-1.5-4.2-3.6-4.2-1.5 0-2.4.7-2.9 1.5V9.5h-3Z"/></svg></a>
         <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.7c0-.9.3-1.5 1.5-1.5h1.5V4.6c-.3 0-1.2-.1-2.2-.1-2.2 0-3.8 1.4-3.8 3.9v2.1H8v3h2.5V21h3Z"/></svg></a>
@@ -1249,7 +1258,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   </div>
 </footer>
 
-<a href="#contact" class="fab" id="fab" aria-label="Talk to us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5v-9Z"/></svg><span class="fab__tip" data-i18n="fab.tip">Talk to us — we’re online</span></a>
+<a href="https://wa.me/message/4F5HUAQSRL45D1" target="_blank" rel="noopener" class="fab" id="fab" aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path fill="currentColor" stroke="none" d="M9.2 7.6c.3-.2.7-.1.9.2l.9 1.7c.1.3.1.6-.1.8l-.6.7c.6 1.1 1.5 2 2.7 2.7l.7-.6c.2-.2.5-.2.8-.1l1.7.9c.3.2.4.6.2.9-.5.8-1.4 1.3-2.3 1.1-3.1-.6-5.5-3-6.1-6.1-.2-.9.3-1.8 1.2-2.2Z"/></svg><span class="fab__tip" data-i18n="fab.tip">Chat with us on WhatsApp</span></a>
 
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
 <script>
@@ -1263,9 +1272,9 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
   const NO = {
     'skip': 'Hopp til innhold',
     'nav.services': 'Tjenester', 'nav.cases': 'Prosjekter', 'nav.about': 'Om oss', 'nav.faq': 'FAQ', 'nav.contacts': 'Kontakt',
-    'cta.contact': 'Kontakt oss<i class="tick"></i>', 'cta.service': 'Få denne tjenesten<i class="tick"></i>', 'cta.project': 'Start et prosjekt<i class="tick"></i>', 'cta.discuss': 'Diskuter prosjektet ditt', 'cta.short': 'Kontakt',
-    'hero.title': 'Digital vekst<br>for din bedrift',
-    'hero.sub': 'Webutvikling, SEO, digital markedsføring og automatisering — som ett sammenkoblet system som driver bedriften din fremover, ikke en samling løsrevne tjenester.',
+    'cta.contact': 'Kontakt oss<i class="tick"></i>', 'cta.s1': 'Bygg en sterkere merkevare<i class="tick"></i>', 'cta.s2': 'La oss utvikle din digitale tilstedeværelse<i class="tick"></i>', 'cta.s3': 'Utforsk potensialet ditt<i class="tick"></i>', 'cta.s4': 'La teamet fokusere på det som betyr noe<i class="tick"></i>', 'cta.project': 'Start et prosjekt<i class="tick"></i>', 'cta.discuss': 'Utforsk vekstmulighetene dine', 'cta.short': 'Kontakt',
+    'hero.title': 'Bygg en merkevare som driver <br>bedriften din fremover.',
+    'hero.sub': 'Vi går rett til kjernen: selskapets struktur og oppdrag, og teamets innovative ånd og unike styrker.',
     'hero.eyebrow': 'Markedsføringsbyrå — Norge', 'hero.scroll': 'Scroll',
     'svc.title': 'Tjenester utviklet<br>for suksess.', 'svc.intro': 'Fire fagområder som fungerer som ett system. Velg én tjeneste eller kombiner dem — vi setter sammen riktig miks for dine mål.',
     'svc.1': 'Branding', 'svc.1.a': 'Merkevarestrategi', 'svc.1.b': 'Navn og posisjonering', 'svc.1.c': 'Logo og visuell identitet', 'svc.1.d': 'Merkevareretningslinjer', 'svc.1.e': 'Design for sosiale medier og presentasjoner',
@@ -1277,11 +1286,11 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     'case.2': 'Et internasjonalt laug for medisinsk estetikk som samler ledende fagfolk innen feltet. Vi utviklet merkevare, nettside, markedsføringsstrategi og annonsering for å bygge en sterk og helhetlig digital tilstedeværelse.',
     'case.3': 'Et lokalt norsk lag som holder fjellet levende gjennom godt preparerte skiløyper og sterk dugnadsånd. Vi skapte en moderne digital opplevelse som samler arbeidet deres, landskapet og løypeinformasjon i sanntid på én intuitiv plattform.',
     'tag.branding': 'Branding', 'tag.web': 'Webdesign', 'tag.dev': 'Utvikling',
-    'bridge.title': 'Har du et<br>prosjekt i tankene?',
+    'bridge.title': 'La oss bygge<br>din langsiktige<br>suksess sammen.',
     'bridge.text': 'Fortell oss hvor du vil vokse. Vi kommer tilbake med en tydelig plan, tidslinje og et budsjettestimat — helt uforpliktende.',
-    'bridge.eyebrow': 'Neste steg', 'bridge.call': 'Ring oss', 'bridge.mail': 'Send e-post',
+    'bridge.eyebrow': 'Neste steg', 'bridge.call': 'Ring oss', 'bridge.mail': 'E-post',
     'about.label': 'Om oss', 'about.title': 'Vi bygger<br>vekst for bedrifter.', 'about.tag': 'Markedsføringsbyrå',
-    'about.text': '<strong>Hver beslutning er forankret i strategi, data og en klar forståelse av hvordan moderne virksomheter skalerer.</strong> Vi kombinerer webutvikling, SEO, digital markedsføring og automatisering i sammenkoblede økosystemer som gir målbare resultater — ikke isolerte leveranser.',
+    'about.text': '<p><strong>Digitale løsninger skal fortsette å skape verdi lenge etter lansering.</strong> Derfor konsentrerer Vektrum seg om å oppnå målbare resultater, samtidig som vi ivaretar merkevarens oppdrag og det vakre i bedriftens innovative ideer.</p><p>Åpenhet er avgjørende når det gjelder forretningsresultatene vi bidrar til. De strukturerte digitale økosystemene vi bygger, rekker lenger enn kortsiktige trender. Vektrum inspirerer kundene våre til å tenke større, skape med trygghet og vokse på en måte som varer.</p><p>Vektrum fungerer som en forlengelse av teamet ditt: vi tar oss tid til å forstå virksomheten din, forenkle de digitale utfordringene og skreddersy løsningene rundt målene dine.</p>',
     'pil.1': 'Strategi først', 'pil.1t': 'Hver beslutning tar utgangspunkt i forretningsmålene dine.', 'pil.2': 'Datadrevet', 'pil.2t': 'Vi måler, lærer og optimaliserer kontinuerlig.', 'pil.3': 'Ett system', 'pil.3t': 'Web, SEO, markedsføring og automatisering jobber sammen.', 'show.tag': 'Teamet vårt', 'show.name': 'Vektrum-teamet', 'show.cap': 'Menneskene bak veksten din',
     'about.link': 'Vår tilnærming<i class="tick"></i>',
     'ap.label': 'Vår tilnærming', 'ap.title': 'Hvert prosjekt starter<br>med å forstå din bedrift.',
@@ -1306,7 +1315,7 @@ html[lang="nb"] .bridge__title { font-size: clamp(36px, 4.3vw, 92px); }  /* long
     'ftr.about': '<strong>Vi hjelper ambisiøse merkevarer å vokse gjennom strategisk markedsføring og kreativ tenkning.</strong> Fra merkevarestrategi til digital gjennomføring gjør vi ideer om til meningsfulle resultater.',
     'ftr.nav': 'Navigasjon', 'ftr.about.l': 'Om oss', 'ftr.services': 'Tjenester', 'ftr.projects': 'Prosjekter', 'ftr.contacts': 'Kontakt',
     'ftr.email': 'E-post:', 'ftr.phone': 'Telefon:', 'ftr.rights': '© 2026 Vektrum AS · <span class="nowrap">Org.nr. 932 227 525 MVA</span> · Norge', 'ftr.privacy': 'Personvernerklæring',
-    'fab.tip': 'Snakk med oss — vi er pålogget'
+    'fab.tip': 'Chat med oss på WhatsApp'
   };
   const ERR = {
     en: { req: 'This field is required', email: 'Please enter a valid email address', phone: 'Please enter a valid phone number', fail: 'Something went wrong. Please email us at post@vektrum.no' },
